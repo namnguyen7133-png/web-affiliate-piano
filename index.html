@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shop Piano Affiliate</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: sans-serif; background: #f4f4f4; text-align: center; }
+        .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
+        .card { background: white; margin: 10px; padding: 15px; border-radius: 10px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .card img { width: 100%; border-radius: 5px; }
+        .price { color: red; font-weight: bold; font-size: 1.2em; margin: 10px 0; }
+        .btn { display: block; background: #ee4d2d; color: white; text-decoration: none; padding: 10px; border-radius: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🎹 KHO ĐÀN PIANO GIÁ TỐT 🎹</h1>
+    <div class="container" id="list"></div>
+
+    <script>
+        fetch('data.csv').then(res => res.text()).then(data => {
+            let rows = data.split('\n');
+            let html = '';
+            rows.forEach(row => {
+                let cols = row.split('\t'); // Dữ liệu từ Sheets dán qua thường cách nhau bằng phím Tab
+                if(cols.length >= 4) {
+                    html += `
+                        <div class="card">
+                            <img src="${cols[8]}"> 
+                            <p><strong>${cols[0]}</strong></p>
+                            <p class="price">${cols[1]}</p>
+                            <a href="${cols[6]}" class="btn" target="_blank">MUA TRÊN SHOPEE</a>
+                        </div>
+                    `;
+                }
+            });
+            document.getElementById('list').innerHTML = html;
+        });
+    </script>
+</body>
+</html>
