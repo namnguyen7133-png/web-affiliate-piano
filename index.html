@@ -3,13 +3,17 @@
 <head>
     <title>Shop Piano Affiliate</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
-        body { font-family: sans-serif; background: #f4f4f4; text-align: center; }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; }
-        .card { background: white; margin: 10px; padding: 15px; border-radius: 10px; width: 250px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .card img { width: 100%; border-radius: 5px; }
-        .price { color: red; font-weight: bold; font-size: 1.2em; margin: 10px 0; }
-        .btn { display: block; background: #ee4d2d; color: white; text-decoration: none; padding: 10px; border-radius: 5px; font-weight: bold; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; text-align: center; }
+        .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: auto; }
+        .card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 8px; }
+        .price { color: #ee4d2d; font-weight: bold; font-size: 1.3em; margin: 10px 0; }
+        .name { font-size: 0.9em; font-weight: bold; color: #333; height: 40px; overflow: hidden; margin: 10px 0; }
+        .btn { display: block; background: #ee4d2d; color: white; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -17,23 +21,33 @@
     <div class="container" id="list"></div>
 
     <script>
-        fetch('data.csv').then(res => res.text()).then(data => {
-            let rows = data.split('\n');
-            let html = '';
-            rows.forEach(row => {
-                let cols = row.split('\t'); // Dữ liệu từ Sheets dán qua thường cách nhau bằng phím Tab
-                if(cols.length >= 4) {
-                    html += `
-                        <div class="card">
-                            <img src="${cols[8]}"> 
-                            <p><strong>${cols[0]}</strong></p>
-                            <p class="price">${cols[1]}</p>
-                            <a href="${cols[6]}" class="btn" target="_blank">MUA TRÊN SHOPEE</a>
-                        </div>
-                    `;
-                }
-            });
-            document.getElementById('list').innerHTML = html;
+        Papa.parse("data.csv", {
+            download: true,
+            header: true, // Tự động lấy tên cột, không cần quan tâm cols[0] hay cols[8]
+            skipEmptyLines: true,
+            complete: function(results) {
+                let html = '';
+                results.data.forEach(row => {
+                    // Lấy dữ liệu dựa theo TÊN CỘT bạn thấy trong file Excel
+                    let ten = row['ItemCard__name'] || "Đàn Piano";
+                    let gia = row['price'] || "Liên hệ";
+                    let anh = row['ItemCard__image'] || row['ItemCard__image src'];
+                    let link = row['Link_Affiliate'];
+
+                    // Chỉ hiện nếu có ảnh và không phải link logo .svg
+                    if(anh && !anh.includes('.svg')) {
+                        html += `
+                            <div class="card">
+                                <img src="${anh}"> 
+                                <p class="name">${ten}</p>
+                                <p class="price">${gia}đ</p>
+                                <a href="${link}" class="btn" target="_blank">MUA TRÊN SHOPEE</a>
+                            </div>
+                        `;
+                    }
+                });
+                document.getElementById('list').innerHTML = html;
+            }
         });
     </script>
 </body>
