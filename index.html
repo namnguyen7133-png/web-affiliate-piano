@@ -3,49 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh Sách Đàn Piano Affiliate</title>
+    <title>Piano Affiliate Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;  
-            overflow: hidden;
-        }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     </style>
 </head>
 <body class="bg-gray-100 p-4 md:p-10">
-
     <div class="max-w-6xl mx-auto">
-        <h1 class="text-2xl font-bold text-center mb-8 text-gray-800 uppercase tracking-widest">Danh Sách Sản Phẩm Piano Ưu Đãi</h1>
-        
+        <h1 class="text-2xl font-bold text-center mb-8 text-gray-800 uppercase tracking-widest">Danh Sách Piano Ưu Đãi</h1>
         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             </div>
     </div>
 
     <script>
-        // Hàm tự động đọc file data.csv cùng thư mục
         Papa.parse("data.csv", {
             download: true,
-            header: false, 
+            header: false,
             skipEmptyLines: true,
             complete: function(results) {
                 const data = results.data;
                 const grid = document.getElementById('product-grid');
                 
                 data.forEach(row => {
-                    // Kiểm tra nếu dòng có đủ dữ liệu (CSV của bạn có 5 cột)
-                    if(row.length >= 5) {
-                        const [offerUrl, title, price, imgSrc, affiliateLink] = row;
+                    if(row.length >= 4) {
+                        // Cột 1: Tiêu đề, Cột 2: Giá, Cột 3: Link ảnh, Cột 4: Link Shopee
+                        const title = row[1];
+                        const price = row[2];
+                        const imgSrc = row[3];
+                        const affLink = row[4];
 
                         const card = `
                             <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col border border-transparent hover:border-orange-300">
-                                <div class="h-52 overflow-hidden bg-gray-200">
+                                <div class="h-52 overflow-hidden bg-white">
                                     <img src="${imgSrc.trim()}" 
-                                         class="w-full h-full object-cover" 
+                                         class="w-full h-full object-contain p-2" 
                                          alt="${title}"
-                                         onerror="this.src='https://via.placeholder.com/300x300?text=Hinh+Anh+Loi'">
+                                         onerror="this.src='https://via.placeholder.com/300x300?text=Sản+Phẩm'">
                                 </div>
                                 <div class="p-4 flex flex-col flex-grow">
                                     <h2 class="text-sm font-semibold text-gray-700 h-10 line-clamp-2 mb-2 leading-tight">
@@ -54,7 +49,7 @@
                                     <p class="text-red-500 font-bold text-xl mb-4">
                                         ${price.trim()}đ
                                     </p>
-                                    <a href="${affiliateLink.trim()}" target="_blank" 
+                                    <a href="${affLink.trim()}" target="_blank" 
                                        class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl transition-colors mt-auto shadow-sm">
                                         MUA NGAY
                                     </a>
