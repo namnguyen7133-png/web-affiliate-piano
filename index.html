@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danh Sách Đàn Piano Affiliate</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     <style>
         .line-clamp-2 {
             display: -webkit-box;
@@ -17,85 +18,53 @@
 <body class="bg-gray-100 p-4 md:p-10">
 
     <div class="max-w-6xl mx-auto">
-        <h1 class="text-2xl font-bold text-center mb-8 text-gray-800">DANH SÁCH SẢN PHẨM PIANO ƯU ĐÃI</h1>
+        <h1 class="text-2xl font-bold text-center mb-8 text-gray-800 uppercase tracking-widest">Danh Sách Sản Phẩm Piano Ưu Đãi</h1>
         
         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             </div>
     </div>
 
     <script>
-        // Dữ liệu từ CSV của bạn đã chuyển sang mảng JSON
-        const products = [
-            {
-                title: "[CHÍNH HÃNG] Đàn Piano Điện Victor VT02 - 88 Phím",
-                price: "2.800.000",
-                img: "https://down-bs-vn.img.susercontent.com/vn-11134207-7ra0g-m8iji32znxbi6b.webp",
-                link: "https://s.shopee.vn/8pgcTUbLsD"
-            },
-            {
-                title: "Đàn Piano Điện Gấp Gọn 2025 - 88 Phím Nặng Cảm Lực",
-                price: "1.190.000",
-                img: "https://down-bs-vn.img.susercontent.com/vn-11134207-7ra0g-m8oalkydvonbea.webp",
-                link: "https://s.shopee.vn/9002fnaiXG"
-            },
-            {
-                title: "[Tặng Pedal, Tai Nghe] Đàn Piano Gỗ Woim W-3101",
-                price: "3.490.000",
-                img: "https://down-bs-vn.img.susercontent.com/vn-11134207-7r98o-luyoakgrgvtee3.webp",
-                link: "https://s.shopee.vn/9AJSs6a5CJ"
-            },
-            {
-                title: "Đàn Piano Điện VicTor VT02 Phiên Bản 2026 - Đủ 88 Phím",
-                price: "2.784.000",
-                img: "https://down-bs-vn.img.susercontent.com/vn-11134207-7ra0g-m8rhinic722se8.webp",
-                link: "https://s.shopee.vn/6fc7tVjbGq"
-            },
-            {
-                title: "Đàn Piano Điện Victor VT02 Bản 2026 - 88 Phím, Bluetooth",
-                price: "2.730.000",
-                img: "https://down-bs-vn.img.susercontent.com/vn-11134207-7ra0g-m9cy0ptods3m47.webp",
-                link: "https://s.shopee.vn/6pvY5oixvt"
-            },
-            {
-                title: "Đàn Piano Điện Bora BX 20 Gấp Gọn - 88 Phím",
-                price: "1.900.000",
-                img: "https://down-bs-vn.img.susercontent.com/vn-11134207-7ras8-m1h9g31a9oe784.webp",
-                link: "https://s.shopee.vn/70EyI7iKaw"
-            },
-            {
-                title: "Đàn Piano VICTOR VT02 - 88 Phím - Full Phụ Kiện",
-                price: "2.590.000",
-                img: "https://down-bs-vn.img.susercontent.com/vn-11134207-7ra0g-m96r0i4dv432e1.webp",
-                link: "https://s.shopee.vn/7AYOUQhhFz"
-            },
-            {
-                title: "Bao dù đựng đàn piano 88 phím túi đựng 3 lớp",
-                price: "289.000",
-                img: "https://down-bs-vn.img.susercontent.com/vn-11134207-7ras8-mb4r80865rpofc.webp",
-                link: "https://s.shopee.vn/5L6kJ3ofyi"
+        // Hàm tự động đọc file data.csv cùng thư mục
+        Papa.parse("data.csv", {
+            download: true,
+            header: false, 
+            skipEmptyLines: true,
+            complete: function(results) {
+                const data = results.data;
+                const grid = document.getElementById('product-grid');
+                
+                data.forEach(row => {
+                    // Kiểm tra nếu dòng có đủ dữ liệu (CSV của bạn có 5 cột)
+                    if(row.length >= 5) {
+                        const [offerUrl, title, price, imgSrc, affiliateLink] = row;
+
+                        const card = `
+                            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col border border-transparent hover:border-orange-300">
+                                <div class="h-52 overflow-hidden bg-gray-200">
+                                    <img src="${imgSrc.trim()}" 
+                                         class="w-full h-full object-cover" 
+                                         alt="${title}"
+                                         onerror="this.src='https://via.placeholder.com/300x300?text=Hinh+Anh+Loi'">
+                                </div>
+                                <div class="p-4 flex flex-col flex-grow">
+                                    <h2 class="text-sm font-semibold text-gray-700 h-10 line-clamp-2 mb-2 leading-tight">
+                                        ${title.trim()}
+                                    </h2>
+                                    <p class="text-red-500 font-bold text-xl mb-4">
+                                        ${price.trim()}đ
+                                    </p>
+                                    <a href="${affiliateLink.trim()}" target="_blank" 
+                                       class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-xl transition-colors mt-auto shadow-sm">
+                                        MUA NGAY
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                        grid.innerHTML += card;
+                    }
+                });
             }
-            // Bạn có thể copy thêm các dòng khác từ CSV vào đây theo đúng cấu trúc này
-        ];
-
-        const grid = document.getElementById('product-grid');
-
-        products.forEach(p => {
-            const card = `
-                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col">
-                    <div class="h-48 overflow-hidden bg-gray-200">
-                        <img src="${p.img}" class="w-full h-full object-cover" alt="${p.title}">
-                    </div>
-                    <div class="p-4 flex flex-col flex-grow">
-                        <h2 class="text-sm font-semibold text-gray-700 h-10 line-clamp-2 mb-2">${p.title}</h2>
-                        <p class="text-red-500 font-bold text-lg mb-4">${p.price}đ</p>
-                        <a href="${p.link}" target="_blank" 
-                           class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg transition-colors mt-auto">
-                            MUA NGAY
-                        </a>
-                    </div>
-                </div>
-            `;
-            grid.innerHTML += card;
         });
     </script>
 </body>
