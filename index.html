@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tổng Kho Sản Phẩm Affiliate</title>
+    <title>Hệ Thống Affiliate Đa Kênh</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col items-center justify-center p-6">
-    <div class="text-center mb-12">
-        <h1 class="text-4xl font-black text-slate-800 mb-2 uppercase tracking-tighter">Hệ Thống Affiliate</h1>
-        <p class="text-slate-500 font-medium text-lg">Chọn danh mục bạn muốn xem sản phẩm</p>
-    </div>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
-        <a href="./piano/index.html" class="group bg-white p-10 rounded-[2rem] shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-orange-200/40 transition-all duration-300 border-2 border-transparent hover:border-orange-400 text-center">
-            <div class="text-7xl mb-6 group-hover:scale-110 transition-transform duration-300">🎹</div>
-            <h2 class="text-2xl font-black text-slate-700 uppercase tracking-tight">Đàn Piano</h2>
-            <p class="text-orange-500 font-bold mt-2">20+ Sản phẩm ưu đãi</p>
-        </a>
+<body class="bg-gray-50 py-10">
+    <div class="max-w-6xl mx-auto px-4">
+        <h1 class="text-2xl font-black text-center mb-10 text-slate-800 uppercase">Danh Mục Sản Phẩm</h1>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            
+            <a href="./piano/index.html" class="bg-white p-4 rounded-xl shadow-sm hover:bg-orange-50 border border-gray-100 text-center transition">
+                <div class="text-3xl mb-2">🎹</div>
+                <div class="text-xs font-bold text-gray-600 uppercase">Piano</div>
+            </a>
 
-        <a href="./gia-vi/index.html" class="group bg-white p-10 rounded-[2rem] shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-green-200/40 transition-all duration-300 border-2 border-transparent hover:border-green-400 text-center">
-            <div class="text-7xl mb-6 group-hover:scale-110 transition-transform duration-300">🌶️</div>
-            <h2 class="text-2xl font-black text-slate-700 uppercase tracking-tight">Gia Vị Bếp</h2>
-            <p class="text-green-500 font-bold mt-2 text-sm uppercase">Sắp ra mắt</p>
-        </a>
+            <a href="./gia-vi/index.html" class="bg-white p-4 rounded-xl shadow-sm hover:bg-green-50 border border-gray-100 text-center transition">
+                <div class="text-3xl mb-2">🌶️</div>
+                <div class="text-xs font-bold text-gray-600 uppercase">Gia vị</div>
+            </a>
+
+            <a href="./ban-dien-tu/index.html" class="bg-white p-4 rounded-xl shadow-sm hover:bg-blue-50 border border-gray-100 text-center transition">
+                <div class="text-3xl mb-2">⚡</div>
+                <div class="text-xs font-bold text-gray-600 uppercase">Bàn điện</div>
+            </a>
+            
+            <a href="./my-pham/index.html" class="bg-white p-4 rounded-xl shadow-sm hover:bg-pink-50 border border-gray-100 text-center transition">
+                <div class="text-3xl mb-2">💄</div>
+                <div class="text-xs font-bold text-gray-600 uppercase">Mỹ phẩm</div>
+            </a>
+
+        </div>
     </div>
 </body>
 </html>
